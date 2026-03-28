@@ -179,6 +179,12 @@
       <button onclick="shareLink()" class="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-7 py-3.5 rounded-2xl">
         <i class="fa-solid fa-share"></i> Share Link
       </button>
+      <!-- WhatsApp Share Button -->
+      <button onclick="shareOnWhatsApp()" 
+              class="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-7 py-3.5 rounded-2xl font-medium">
+        <i class="fa-brands fa-whatsapp text-2xl"></i> 
+        Share on WhatsApp
+      </button>
     </div>
 
     <!-- History -->
@@ -383,6 +389,19 @@
     window.onload = () => {
       convertLength();
     };
+    // WhatsApp Share Function
+    function shareOnWhatsApp() {
+      const toolLink = window.location.href;
+      const message = `Best MM to Inches + CM, Feet, Weight, Volume, Temperature Converter 🔥
+
+Divisor Studio
+Try karo yeh powerful tool!`;
+
+      const encodedMessage = encodeURIComponent(message + "\n\n" + toolLink);
+      const whatsappURL = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+      
+      window.open(whatsappURL, '_blank');
+    }
   </script>
 </body>
 </html>        
