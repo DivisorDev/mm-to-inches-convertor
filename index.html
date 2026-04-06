@@ -1,407 +1,246 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit Converter | Divisor Studio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>
-    body { font-family: system-ui, sans-serif; }
-    .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: 600; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiviTools - Ultimate Tools</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+.tab-active{border-bottom:3px solid #3b82f6;color:#3b82f6;}
+</style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <i class="fa-solid fa-ruler text-3xl text-blue-600"></i>
-        <h1 class="text-2xl font-bold">Divisor Studio</h1>
-      </div>
-      <h2 class="text-xl font-semibold hidden md:block">All-in-One Unit Converter</h2>
-      <button onclick="toggleDarkMode()" class="p-3 rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-700">
-        <i id="theme-icon" class="fa-solid fa-moon text-2xl"></i>
-      </button>
-    </div>
-  </nav>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
 
-  <div class="max-w-6xl mx-auto px-6 py-8">
-    <!-- Tabs -->
-    <div class="flex border-b mb-8 overflow-x-auto pb-1">
-      <button onclick="switchTab(0)" class="tab px-8 py-4 tab-active" id="tab-0">Length</button>
-      <button onclick="switchTab(1)" class="tab px-8 py-4" id="tab-1">Weight</button>
-      <button onclick="switchTab(2)" class="tab px-8 py-4" id="tab-2">Volume</button>
-      <button onclick="switchTab(3)" class="tab px-8 py-4" id="tab-3">Temperature</button>
-      <button onclick="switchTab(4)" class="tab px-8 py-4" id="tab-4">Fraction ↔ Decimal</button>
-    </div>
+<!-- HEADER -->
+<header class="p-4 bg-white dark:bg-gray-800 flex justify-between items-center">
+<h1 class="font-bold text-lg">DiviTools - Divisor Studios</h1>
+<button onclick="toggleDark()">🌙</button>
+</header>
 
-    <div id="tab-content">
+<div class="max-w-5xl mx-auto p-4">
 
-      <!-- Length Tab -->
-      <div id="content-0">
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <label class="block text-sm font-medium mb-2">From</label>
-            <select id="from-unit-l" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="mm">Millimeter (mm)</option>
-              <option value="cm">Centimeter (cm)</option>
-              <option value="m">Meter (m)</option>
-              <option value="ft">Feet (ft)</option>
-              <option value="in" selected>Inch (in)</option>
-            </select>
-            <input id="from-value-l" type="number" step="any" placeholder="Value" 
-                   class="w-full mt-4 p-6 text-4xl rounded-3xl border dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                   oninput="convertLength()">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-2">To</label>
-            <select id="to-unit-l" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="mm" selected>Millimeter (mm)</option>
-              <option value="cm">Centimeter (cm)</option>
-              <option value="m">Meter (m)</option>
-              <option value="ft">Feet (ft)</option>
-              <option value="in">Inch (in)</option>
-            </select>
-            <div class="mt-4 p-6 bg-white dark:bg-gray-800 rounded-3xl border dark:border-gray-700 text-4xl min-h-[110px] flex items-center" id="to-value-l">0</div>
-            <div id="fraction-result" class="mt-3 text-2xl font-medium text-blue-600"></div>
-          </div>
-        </div>
-        <button onclick="swapLength()" class="mx-auto mt-6 flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-2xl hover:bg-blue-700">
-          <i class="fa-solid fa-arrows-rotate"></i> Swap
-        </button>
-      </div>
+<!-- TABS -->
+<div class="flex gap-3 overflow-x-auto mb-6 text-sm">
+<button onclick="tab(0)" class="tab tab-active">Length</button>
+<button onclick="tab(1)" class="tab">Weight</button>
+<button onclick="tab(2)" class="tab">Temp</button>
+<button onclick="tab(3)" class="tab">Area</button>
+<button onclick="tab(4)" class="tab">Speed</button>
+<button onclick="tab(5)" class="tab">Calc</button>
+<button onclick="tab(6)" class="tab">EMI</button>
+<button onclick="tab(7)" class="tab">GST</button>
+<button onclick="tab(8)" class="tab">Image</button>
+</div>
 
-      <!-- Weight Tab -->
-      <div id="content-1" class="hidden">
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <label class="block text-sm font-medium mb-2">From</label>
-            <select id="from-unit-w" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="kg" selected>Kilogram (kg)</option>
-              <option value="g">Gram (g)</option>
-              <option value="lb">Pound (lb)</option>
-              <option value="oz">Ounce (oz)</option>
-              <option value="ton">Metric Ton</option>
-            </select>
-            <input id="from-value-w" type="number" step="any" placeholder="Value" 
-                   class="w-full mt-4 p-6 text-4xl rounded-3xl border dark:border-gray-700 bg-white dark:bg-gray-800" oninput="convertWeight()">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-2">To</label>
-            <select id="to-unit-w" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="kg">Kilogram (kg)</option>
-              <option value="g" selected>Gram (g)</option>
-              <option value="lb">Pound (lb)</option>
-              <option value="oz">Ounce (oz)</option>
-              <option value="ton">Metric Ton</option>
-            </select>
-            <div class="mt-4 p-6 bg-white dark:bg-gray-800 rounded-3xl border dark:border-gray-700 text-4xl min-h-[110px] flex items-center" id="to-value-w">0</div>
-          </div>
-        </div>
-      </div>
+<!-- LENGTH -->
+<div id="c0">
+<input id="val" type="number" placeholder="Value" oninput="convert()" class="w-full p-3 border rounded mb-2">
+<select id="from" class="w-full p-2 border rounded mb-2">
+<option value="mm">MM</option>
+<option value="cm">CM</option>
+<option value="m">Meter</option>
+<option value="ft">Feet</option>
+<option value="in">Inch</option>
+</select>
+<select id="to" class="w-full p-2 border rounded mb-2">
+<option value="mm">MM</option>
+<option value="cm">CM</option>
+<option value="m">Meter</option>
+<option value="ft">Feet</option>
+<option value="in">Inch</option>
+</select>
+<div id="result" class="font-bold"></div>
+<div id="fraction" class="text-blue-600"></div>
+</div>
 
-      <!-- Volume Tab -->
-      <div id="content-2" class="hidden">
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <label class="block text-sm font-medium mb-2">From</label>
-            <select id="from-unit-v" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="l" selected>Liter (L)</option>
-              <option value="ml">Milliliter (ml)</option>
-              <option value="m3">Cubic Meter (m³)</option>
-              <option value="gal">US Gallon</option>
-              <option value="ft3">Cubic Feet</option>
-            </select>
-            <input id="from-value-v" type="number" step="any" placeholder="Value" 
-                   class="w-full mt-4 p-6 text-4xl rounded-3xl border dark:border-gray-700 bg-white dark:bg-gray-800" oninput="convertVolume()">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-2">To</label>
-            <select id="to-unit-v" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="l">Liter (L)</option>
-              <option value="ml" selected>Milliliter (ml)</option>
-              <option value="m3">Cubic Meter (m³)</option>
-              <option value="gal">US Gallon</option>
-              <option value="ft3">Cubic Feet</option>
-            </select>
-            <div class="mt-4 p-6 bg-white dark:bg-gray-800 rounded-3xl border dark:border-gray-700 text-4xl min-h-[110px] flex items-center" id="to-value-v">0</div>
-          </div>
-        </div>
-      </div>
+<!-- WEIGHT FIXED -->
+<div id="c1" class="hidden">
+<input id="w" type="number" placeholder="KG" class="w-full p-3 border rounded" oninput="weight()">
+<div id="wr" class="mt-2"></div>
+</div>
 
-      <!-- Temperature Tab -->
-      <div id="content-3" class="hidden">
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <label class="block text-sm font-medium mb-2">From</label>
-            <select id="from-unit-t" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="c" selected>Celsius (°C)</option>
-              <option value="f">Fahrenheit (°F)</option>
-              <option value="k">Kelvin (K)</option>
-            </select>
-            <input id="from-value-t" type="number" step="any" placeholder="Value" 
-                   class="w-full mt-4 p-6 text-4xl rounded-3xl border dark:border-gray-700 bg-white dark:bg-gray-800" oninput="convertTemperature()">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-2">To</label>
-            <select id="to-unit-t" class="w-full p-4 rounded-2xl border dark:border-gray-700 bg-white dark:bg-gray-800">
-              <option value="c">Celsius (°C)</option>
-              <option value="f" selected>Fahrenheit (°F)</option>
-              <option value="k">Kelvin (K)</option>
-            </select>
-            <div class="mt-4 p-6 bg-white dark:bg-gray-800 rounded-3xl border dark:border-gray-700 text-4xl min-h-[110px] flex items-center" id="to-value-t">0</div>
-          </div>
-        </div>
-      </div>
+<!-- TEMP -->
+<div id="c2" class="hidden">
+<input id="t" type="number" placeholder="Celsius" class="w-full p-3 border rounded" oninput="temp()">
+<div id="tr"></div>
+</div>
 
-      <!-- Fraction Tab -->
-      <div id="content-4" class="hidden">
-        <div class="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-3xl p-10">
-          <h3 class="text-2xl font-semibold mb-6 text-center">Fraction to Decimal & Vice Versa</h3>
-          <input id="frac-input" type="text" placeholder="Example: 5 3/8  or  5.375" 
-                 class="w-full p-6 text-3xl rounded-3xl border dark:border-gray-700 bg-white dark:bg-gray-800" oninput="convertFraction()">
-          <div id="frac-result" class="mt-10 text-5xl font-bold text-center text-blue-600 min-h-[100px]"></div>
-        </div>
-      </div>
-    </div>
+<!-- AREA -->
+<div id="c3" class="hidden">
+<input id="a" type="number" class="w-full p-3 border rounded" oninput="area()">
+<div id="ar"></div>
+</div>
 
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap gap-4 justify-center mt-12">
-      <button onclick="copyResult()" class="flex items-center gap-2 bg-gray-800 dark:bg-gray-700 hover:bg-black text-white px-7 py-3.5 rounded-2xl">
-        <i class="fa-solid fa-copy"></i> Copy Result
-      </button>
-      <button onclick="exportToPDF()" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-7 py-3.5 rounded-2xl">
-        <i class="fa-solid fa-file-pdf"></i> Export PDF
-      </button>
-      <button onclick="shareLink()" class="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-7 py-3.5 rounded-2xl">
-        <i class="fa-solid fa-share"></i> Share Link
-      </button>
-      <!-- WhatsApp Share Button -->
-      <button onclick="shareOnWhatsApp()" 
-              class="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-7 py-3.5 rounded-2xl font-medium">
-        <i class="fa-brands fa-whatsapp text-2xl"></i> 
-        Share on WhatsApp
-      </button>
-    </div>
+<!-- SPEED -->
+<div id="c4" class="hidden">
+<input id="s" type="number" class="w-full p-3 border rounded" oninput="speed()">
+<div id="sr"></div>
+</div>
 
-    <!-- History -->
-    <div class="mt-16">
-      <h3 class="font-medium mb-4 flex items-center gap-2"><i class="fa-solid fa-clock"></i> Recent Conversions</h3>
-      <div id="history" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-    </div>
-  </div>
+<!-- CALCULATOR FIXED -->
+<div id="c5" class="hidden">
+<input id="calc" class="w-full p-3 border rounded" placeholder="2+2*5">
+<button onclick="calcRes()" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded w-full">Calculate</button>
+<div id="calcResult" class="mt-2"></div>
+</div>
 
-  <!-- Footer -->
-  <footer class="bg-white dark:bg-gray-800 border-t mt-20 py-12">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <p class="text-2xl font-semibold mb-1">Divisor Studio</p>
-      <p class="text-sm text-gray-500 dark:text-gray-400">© All Rights Reserved by Divisor Studio</p>
-      <p class="mt-6">
-        Connect with us: 
-        <a href="mailto:divisordevelopment@gmail.com" class="text-blue-600 hover:underline">divisordevelopment@gmail.com</a>
-      </p>
-    </div>
-  </footer>
+<!-- EMI -->
+<div id="c6" class="hidden">
+<input id="p" placeholder="Loan" class="w-full p-2 border mb-2">
+<input id="r" placeholder="Rate %" class="w-full p-2 border mb-2">
+<input id="n" placeholder="Months" class="w-full p-2 border mb-2">
+<button onclick="emi()" class="bg-blue-500 text-white px-4 py-2 w-full">Calculate</button>
+<div id="emiResult"></div>
+</div>
 
-  <script>
-    // Dark Mode
-    function toggleDarkMode() {
-      document.documentElement.classList.toggle("dark");
-      const icon = document.getElementById("theme-icon");
-      icon.classList.toggle("fa-moon");
-      icon.classList.toggle("fa-sun");
-      localStorage.setItem("darkMode", document.documentElement.classList.contains("dark"));
-    }
+<!-- GST -->
+<div id="c7" class="hidden">
+<input id="gst" placeholder="Amount" class="w-full p-2 border mb-2">
+<input id="gstp" placeholder="GST %" class="w-full p-2 border mb-2">
+<button onclick="gstCalc()" class="bg-blue-500 text-white px-4 py-2 w-full">Add GST</button>
+<div id="gstResult"></div>
+</div>
 
-    let currentTab = 0;
+<!-- IMAGE FIXED -->
+<div id="c8" class="hidden">
+<input type="file" accept="image/*" onchange="compress(event)" class="w-full mb-2">
+<canvas id="canvas" class="w-full border"></canvas>
+<button onclick="downloadImg()" class="bg-green-600 text-white px-4 py-2 mt-2 w-full">Download Image</button>
+</div>
 
-    function switchTab(n) {
-      currentTab = n;
-      document.querySelectorAll(".tab").forEach((t, i) => {
-        t.classList.toggle("tab-active", i === n);
-      });
-      document.querySelectorAll("#tab-content > div").forEach(div => div.classList.add("hidden"));
-      document.getElementById("content-" + n).classList.remove("hidden");
+<!-- BUTTONS -->
+<div class="mt-4 grid grid-cols-2 gap-2">
+<button onclick="pdf()" class="bg-green-600 text-white p-2 rounded">PDF</button>
+<button onclick="wa()" class="bg-green-500 text-white p-2 rounded">WhatsApp</button>
+</div>
 
-      // Auto convert on tab switch
-      if (n === 0) convertLength();
-      else if (n === 1) convertWeight();
-      else if (n === 2) convertVolume();
-      else if (n === 3) convertTemperature();
-    }
+<!-- HISTORY -->
+<div class="mt-6">
+<h3 class="font-bold">History</h3>
+<div id="historyBox" class="text-sm"></div>
+</div>
 
-    // Length Converter
-    const lengthRates = { mm: 1, cm: 10, m: 1000, ft: 304.8, in: 25.4 };
-    function convertLength() {
-      let val = parseFloat(document.getElementById("from-value-l").value) || 0;
-      let from = document.getElementById("from-unit-l").value;
-      let to = document.getElementById("to-unit-l").value;
-      let result = (val * lengthRates[from]) / lengthRates[to];
-      document.getElementById("to-value-l").textContent = result.toFixed(6);
+</div>
 
-      if (to === "in") {
-        document.getElementById("fraction-result").innerHTML = `≈ ${decimalToFraction(result)}`;
-      } else {
-        document.getElementById("fraction-result").innerHTML = "";
-      }
-      addToHistory(`Length: ${val} ${from} → ${result.toFixed(4)} ${to}`);
-    }
-    function swapLength() {
-      let f = document.getElementById("from-unit-l");
-      let t = document.getElementById("to-unit-l");
-      [f.value, t.value] = [t.value, f.value];
-      convertLength();
-    }
+<script>
+function toggleDark(){document.documentElement.classList.toggle("dark");}
 
-    // Weight Converter
-    const weightRates = { kg: 1, g: 0.001, lb: 0.453592, oz: 0.0283495, ton: 1000 };
-    function convertWeight() {
-      let val = parseFloat(document.getElementById("from-value-w").value) || 0;
-      let from = document.getElementById("from-unit-w").value;
-      let to = document.getElementById("to-unit-w").value;
-      let result = (val * weightRates[from]) / weightRates[to];
-      document.getElementById("to-value-w").textContent = result.toFixed(6);
-      addToHistory(`Weight: ${val} ${from} → ${result.toFixed(4)} ${to}`);
-    }
+function tab(n){
+document.querySelectorAll("[id^=c]").forEach(x=>x.classList.add("hidden"));
+document.getElementById("c"+n).classList.remove("hidden");
+}
 
-    // Volume Converter
-    const volumeRates = { l: 1, ml: 0.001, m3: 1000, gal: 3.78541, ft3: 28.3168 };
-    function convertVolume() {
-      let val = parseFloat(document.getElementById("from-value-v").value) || 0;
-      let from = document.getElementById("from-unit-v").value;
-      let to = document.getElementById("to-unit-v").value;
-      let result = (val * volumeRates[from]) / volumeRates[to];
-      document.getElementById("to-value-v").textContent = result.toFixed(6);
-      addToHistory(`Volume: ${val} ${from} → ${result.toFixed(4)} ${to}`);
-    }
+/* LENGTH */
+const rates={mm:1,cm:10,m:1000,ft:304.8,in:25.4};
 
-    // Temperature Converter
-    function convertTemperature() {
-      let val = parseFloat(document.getElementById("from-value-t").value) || 0;
-      let from = document.getElementById("from-unit-t").value;
-      let to = document.getElementById("to-unit-t").value;
-      let result;
+function convert(){
+let v=parseFloat(val.value)||0;
+let res=(v*rates[from.value])/rates[to.value];
+result.innerText=res.toFixed(3)+" "+to.value;
 
-      if (from === to) result = val;
-      else if (from === "c" && to === "f") result = (val * 9/5) + 32;
-      else if (from === "f" && to === "c") result = (val - 32) * 5/9;
-      else if (from === "c" && to === "k") result = val + 273.15;
-      else if (from === "k" && to === "c") result = val - 273.15;
-      else if (from === "f" && to === "k") result = (val - 32) * 5/9 + 273.15;
-      else if (from === "k" && to === "f") result = (val - 273.15) * 9/5 + 32;
+if(to.value=="in"){fraction.innerText=decimalToFraction(res);}
+else{fraction.innerText="";}
 
-      document.getElementById("to-value-t").textContent = result.toFixed(4);
-      addToHistory(`Temperature: ${val} ${from} → ${result.toFixed(4)} ${to}`);
-    }
+saveHistory(v+" "+from.value+" → "+res.toFixed(2)+" "+to.value);
+}
 
-    // Fraction Converter
-    function decimalToFraction(dec) {
-      if (!dec) return "0";
-      let whole = Math.floor(dec);
-      let frac = dec - whole;
-      let best = "";
-      let minDiff = 1;
-      [16,32,64].forEach(den => {
-        let num = Math.round(frac * den);
-        let diff = Math.abs(frac - num/den);
-        if (diff < minDiff) {
-          minDiff = diff;
-          best = num ? `\( {num}/ \){den}` : "";
-        }
-      });
-      return whole + (best ? " " + best : "");
-    }
+function decimalToFraction(d){
+let w=Math.floor(d);
+let f=d-w;
+let fracs=[1/8,1/4,3/8,1/2,5/8,3/4,7/8];
+let closest=fracs.reduce((a,b)=>Math.abs(b-f)<Math.abs(a-f)?b:a);
+let num=Math.round(closest*8);
+return w+" "+num+"/8 inch";
+}
 
-    function convertFraction() {
-      let input = document.getElementById("frac-input").value.trim();
-      let res = "";
+/* WEIGHT FIX */
+function weight(){
+let kg=parseFloat(w.value)||0;
+wr.innerText=kg+" kg = "+(kg*1000)+" g | "+(kg*2.20462).toFixed(2)+" lb";
+}
 
-      if (/^\d*\.?\d+$/.test(input)) {
-        res = `Fraction: <span class="text-5xl">${decimalToFraction(parseFloat(input))}</span>`;
-      } else if (input.includes("/")) {
-        let parts = input.split(" ");
-        let fracPart = parts[parts.length-1].split("/");
-        if (fracPart.length === 2) {
-          let num = parseFloat(fracPart[0]);
-          let den = parseFloat(fracPart[1]);
-          let decimal = num / den;
-          if (parts.length > 1) decimal += parseFloat(parts[0]);
-          res = `Decimal: <span class="text-5xl">${decimal.toFixed(6)}</span>`;
-        }
-      }
-      document.getElementById("frac-result").innerHTML = res || "Enter something like 5 3/8 or 2.375";
-    }
+/* SAFE CALCULATOR */
+function calcRes(){
+try{
+calcResult.innerText=Function('"use strict";return ('+calc.value+')')();
+}catch{
+calcResult.innerText="Invalid";
+}
+}
 
-    function addToHistory(text) {
-      const hist = document.getElementById("history");
-      const div = document.createElement("div");
-      div.className = "bg-white dark:bg-gray-800 p-4 rounded-2xl text-sm border dark:border-gray-700";
-      div.textContent = text;
-      hist.prepend(div);
-      if (hist.children.length > 9) hist.removeChild(hist.lastChild);
-    }
+/* IMAGE FIX */
+let imageData;
+function compress(e){
+let img=new Image();
+img.src=URL.createObjectURL(e.target.files[0]);
+img.onload=()=>{
+let c=canvas;
+let ctx=c.getContext("2d");
+c.width=300;
+c.height=300;
+ctx.drawImage(img,0,0,300,300);
+imageData=c.toDataURL("image/jpeg",0.7);
+}
+}
 
-    function copyResult() {
-      let text = "";
-      if (currentTab === 0) text = document.getElementById("to-value-l").textContent;
-      else if (currentTab === 1) text = document.getElementById("to-value-w").textContent;
-      else if (currentTab === 2) text = document.getElementById("to-value-v").textContent;
-      else if (currentTab === 3) text = document.getElementById("to-value-t").textContent;
-      else if (currentTab === 4) text = document.getElementById("frac-result").textContent;
+function downloadImg(){
+if(imageData){
+let a=document.createElement("a");
+a.href=imageData;
+a.download="compressed.jpg";
+a.click();
+}
+}
 
-      if (text) {
-        navigator.clipboard.writeText(text).then(() => alert("✅ Copied!"));
-      }
-    }
+/* HISTORY FIX */
+function saveHistory(text){
+let hist=JSON.parse(localStorage.getItem("hist"))||[];
+hist.unshift(text);
+hist=hist.slice(0,10);
+localStorage.setItem("hist",JSON.stringify(hist));
+renderHistory();
+}
 
-    function exportToPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(20);
-      doc.text("Divisor Studio - Unit Converter", 20, 30);
-      doc.setFontSize(14);
-      let resultText = "Result: ";
-      if (currentTab === 0) resultText += document.getElementById("to-value-l").textContent;
-      else if (currentTab === 1) resultText += document.getElementById("to-value-w").textContent;
-      else if (currentTab === 2) resultText += document.getElementById("to-value-v").textContent;
-      else if (currentTab === 3) resultText += document.getElementById("to-value-t").textContent;
-      doc.text(resultText, 20, 60);
-      doc.text("© All Rights Reserved by Divisor Studio", 20, 100);
-      doc.save("Divisor-Studio-Conversion.pdf");
-    }
+function renderHistory(){
+let hist=JSON.parse(localStorage.getItem("hist"))||[];
+historyBox.innerHTML=hist.map(x=>"<div>"+x+"</div>").join("");
+}
+window.onload=renderHistory;
 
-    function shareLink() {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        alert("🔗 Link copied! Share kar sakte ho");
-      });
-    }
+/* OTHER */
+function temp(){tr.innerText=(t.value*9/5+32)+" °F";}
+function area(){ar.innerText=(a.value*10.76)+" sq.ft";}
+function speed(){sr.innerText=(s.value*0.621)+" mph";}
 
-    // Initialize
-    if (localStorage.getItem("darkMode") === "true") {
-      document.documentElement.classList.add("dark");
-      document.getElementById("theme-icon").classList.replace("fa-moon", "fa-sun");
-    }
+/* EMI */
+function emi(){
+let P=p.value,R=r.value/12/100,N=n.value;
+let E=(P*R*(1+R)**N)/((1+R)**N-1);
+emiResult.innerText="EMI: "+E.toFixed(2);
+}
 
-    // Default load
-    window.onload = () => {
-      convertLength();
-    };
-    // WhatsApp Share Function
-    function shareOnWhatsApp() {
-      const toolLink = window.location.href;
-      const message = `Best MM to Inches + CM, Feet, Weight, Volume, Temperature Converter 🔥
+/* GST */
+function gstCalc(){
+gstResult.innerText=(gst.value*(1+gstp.value/100)).toFixed(2);
+}
 
-Divisor Studio
-Try karo yeh powerful tool!`;
+/* PDF */
+function pdf(){
+const {jsPDF}=window.jspdf;
+let doc=new jsPDF();
+doc.text("Result: "+result.innerText,20,20);
+doc.save("result.pdf");
+}
 
-      const encodedMessage = encodeURIComponent(message + "\n\n" + toolLink);
-      const whatsappURL = `https://api.whatsapp.com/send?text=${encodedMessage}`;
-      
-      window.open(whatsappURL, '_blank');
-    }
-  </script>
+/* WA */
+function wa(){
+window.open("https://wa.me/?text="+encodeURIComponent(window.location.href));
+}
+</script>
+
 </body>
-</html>        
+</html>
