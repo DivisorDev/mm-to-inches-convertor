@@ -10,12 +10,34 @@
 
 <style>
 .tab-active{border-bottom:3px solid #3b82f6;color:#3b82f6;}
+  /* MOBILE INPUT FIX */
+input, select {
+  color: #000; /* light mode */
+}
+
+.dark input,
+.dark select {
+  background-color: #1f2937 !important; /* dark bg */
+  color: #fff !important; /* white text */
+  border: 1px solid #374151;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+.dark input::placeholder {
+  color: #6b7280;
+}
+  
 </style>
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
 
-<!-- HEADER -->
+<!-- HEADER -->input, select {
+  font-size: 16px; /* mobile zoom issue fix */
+}
 <header class="p-4 bg-white dark:bg-gray-800 flex justify-between items-center">
 <h1 class="font-bold text-lg">DiviTools - Divisor Studios</h1>
 <button onclick="toggleDark()">🌙</button>
