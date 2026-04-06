@@ -10,36 +10,38 @@
 
 <style>
 .tab-active{border-bottom:3px solid #3b82f6;color:#3b82f6;}
-  /* MOBILE INPUT FIX */
-input, select {
-  color: #000; /* light mode */
+
+/* ✅ MOBILE INPUT FULL FIX */
+input, select, textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #ffffff;
+  color: #000000;
 }
 
-.dark input,
-.dark select {
-  background-color: #1f2937 !important; /* dark bg */
-  color: #fff !important; /* white text */
-  border: 1px solid #374151;
+.dark input, .dark select {
+  background-color: #111827 !important;
+  color: #ffffff !important;
+  border: 1px solid #374151 !important;
 }
 
-input::placeholder {
-  color: #9ca3af;
+input::placeholder { color:#6b7280; }
+.dark input::placeholder { color:#9ca3af; }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #111827 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
-.dark input::placeholder {
-  color: #6b7280;
-}
-  
+input, select { font-size:16px !important; }
 </style>
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
 
-<!-- HEADER -->input, select {
-  font-size: 16px; /* mobile zoom issue fix */
-}
-<header class="p-4 bg-white dark:bg-gray-800 flex justify-between items-center">
-<h1 class="font-bold text-lg">DiviTools - Divisor Studios</h1>
+<!-- HEADER -->
+<header class="p-4 bg-white dark:bg-gray-800 flex justify-between">
+<h1 class="font-bold">DiviTools - Divisor Studios</h1>
 <button onclick="toggleDark()">🌙</button>
 </header>
 
@@ -60,54 +62,68 @@ input::placeholder {
 
 <!-- LENGTH -->
 <div id="c0">
-<input id="val" type="number" placeholder="Value" oninput="convert()" class="w-full p-3 border rounded mb-2">
-<select id="from" class="w-full p-2 border rounded mb-2">
+<input id="val" type="number" placeholder="Value" oninput="convert()"
+class="w-full p-3 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white mb-2">
+
+<select id="from" class="w-full p-2 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white mb-2">
 <option value="mm">MM</option>
 <option value="cm">CM</option>
 <option value="m">Meter</option>
 <option value="ft">Feet</option>
 <option value="in">Inch</option>
 </select>
-<select id="to" class="w-full p-2 border rounded mb-2">
+
+<select id="to" class="w-full p-2 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white mb-2">
 <option value="mm">MM</option>
 <option value="cm">CM</option>
 <option value="m">Meter</option>
 <option value="ft">Feet</option>
 <option value="in">Inch</option>
 </select>
+
 <div id="result" class="font-bold"></div>
-<div id="fraction" class="text-blue-600"></div>
+<div id="fraction" class="text-blue-500"></div>
 </div>
 
-<!-- WEIGHT FIXED -->
+<!-- WEIGHT -->
 <div id="c1" class="hidden">
-<input id="w" type="number" placeholder="KG" class="w-full p-3 border rounded" oninput="weight()">
+<input id="w" type="number" placeholder="Enter KG"
+class="w-full p-3 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white"
+oninput="weight()">
 <div id="wr" class="mt-2"></div>
 </div>
 
 <!-- TEMP -->
 <div id="c2" class="hidden">
-<input id="t" type="number" placeholder="Celsius" class="w-full p-3 border rounded" oninput="temp()">
+<input id="t" type="number" placeholder="Celsius"
+class="w-full p-3 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white"
+oninput="temp()">
 <div id="tr"></div>
 </div>
 
 <!-- AREA -->
 <div id="c3" class="hidden">
-<input id="a" type="number" class="w-full p-3 border rounded" oninput="area()">
+<input id="a" type="number"
+class="w-full p-3 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white"
+oninput="area()">
 <div id="ar"></div>
 </div>
 
 <!-- SPEED -->
 <div id="c4" class="hidden">
-<input id="s" type="number" class="w-full p-3 border rounded" oninput="speed()">
+<input id="s" type="number"
+class="w-full p-3 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white"
+oninput="speed()">
 <div id="sr"></div>
 </div>
 
-<!-- CALCULATOR FIXED -->
+<!-- CALC -->
 <div id="c5" class="hidden">
-<input id="calc" class="w-full p-3 border rounded" placeholder="2+2*5">
-<button onclick="calcRes()" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded w-full">Calculate</button>
-<div id="calcResult" class="mt-2"></div>
+<input id="calc"
+class="w-full p-3 rounded-xl border bg-white text-black dark:bg-gray-900 dark:text-white"
+placeholder="2+2*5">
+<button onclick="calcRes()" class="bg-blue-500 text-white p-2 mt-2 w-full rounded">Calculate</button>
+<div id="calcResult"></div>
 </div>
 
 <!-- EMI -->
@@ -115,7 +131,7 @@ input::placeholder {
 <input id="p" placeholder="Loan" class="w-full p-2 border mb-2">
 <input id="r" placeholder="Rate %" class="w-full p-2 border mb-2">
 <input id="n" placeholder="Months" class="w-full p-2 border mb-2">
-<button onclick="emi()" class="bg-blue-500 text-white px-4 py-2 w-full">Calculate</button>
+<button onclick="emi()" class="bg-blue-500 text-white p-2 w-full">Calculate</button>
 <div id="emiResult"></div>
 </div>
 
@@ -123,19 +139,19 @@ input::placeholder {
 <div id="c7" class="hidden">
 <input id="gst" placeholder="Amount" class="w-full p-2 border mb-2">
 <input id="gstp" placeholder="GST %" class="w-full p-2 border mb-2">
-<button onclick="gstCalc()" class="bg-blue-500 text-white px-4 py-2 w-full">Add GST</button>
+<button onclick="gstCalc()" class="bg-blue-500 text-white p-2 w-full">Add GST</button>
 <div id="gstResult"></div>
 </div>
 
-<!-- IMAGE FIXED -->
+<!-- IMAGE -->
 <div id="c8" class="hidden">
 <input type="file" accept="image/*" onchange="compress(event)" class="w-full mb-2">
 <canvas id="canvas" class="w-full border"></canvas>
-<button onclick="downloadImg()" class="bg-green-600 text-white px-4 py-2 mt-2 w-full">Download Image</button>
+<button onclick="downloadImg()" class="bg-green-600 text-white p-2 mt-2 w-full">Download</button>
 </div>
 
 <!-- BUTTONS -->
-<div class="mt-4 grid grid-cols-2 gap-2">
+<div class="grid grid-cols-2 gap-2 mt-4">
 <button onclick="pdf()" class="bg-green-600 text-white p-2 rounded">PDF</button>
 <button onclick="wa()" class="bg-green-500 text-white p-2 rounded">WhatsApp</button>
 </div>
@@ -143,14 +159,13 @@ input::placeholder {
 <!-- HISTORY -->
 <div class="mt-6">
 <h3 class="font-bold">History</h3>
-<div id="historyBox" class="text-sm"></div>
+<div id="historyBox"></div>
 </div>
 
 </div>
 
 <script>
 function toggleDark(){document.documentElement.classList.toggle("dark");}
-
 function tab(n){
 document.querySelectorAll("[id^=c]").forEach(x=>x.classList.add("hidden"));
 document.getElementById("c"+n).classList.remove("hidden");
@@ -158,18 +173,13 @@ document.getElementById("c"+n).classList.remove("hidden");
 
 /* LENGTH */
 const rates={mm:1,cm:10,m:1000,ft:304.8,in:25.4};
-
 function convert(){
 let v=parseFloat(val.value)||0;
 let res=(v*rates[from.value])/rates[to.value];
 result.innerText=res.toFixed(3)+" "+to.value;
-
 if(to.value=="in"){fraction.innerText=decimalToFraction(res);}
-else{fraction.innerText="";}
-
 saveHistory(v+" "+from.value+" → "+res.toFixed(2)+" "+to.value);
 }
-
 function decimalToFraction(d){
 let w=Math.floor(d);
 let f=d-w;
@@ -179,57 +189,46 @@ let num=Math.round(closest*8);
 return w+" "+num+"/8 inch";
 }
 
-/* WEIGHT FIX */
+/* WEIGHT */
 function weight(){
 let kg=parseFloat(w.value)||0;
 wr.innerText=kg+" kg = "+(kg*1000)+" g | "+(kg*2.20462).toFixed(2)+" lb";
 }
 
-/* SAFE CALCULATOR */
+/* SAFE CALC */
 function calcRes(){
-try{
-calcResult.innerText=Function('"use strict";return ('+calc.value+')')();
-}catch{
-calcResult.innerText="Invalid";
-}
+try{calcResult.innerText=Function('"use strict";return ('+calc.value+')')();}
+catch{calcResult.innerText="Invalid";}
 }
 
-/* IMAGE FIX */
+/* IMAGE */
 let imageData;
 function compress(e){
 let img=new Image();
 img.src=URL.createObjectURL(e.target.files[0]);
 img.onload=()=>{
-let c=canvas;
-let ctx=c.getContext("2d");
-c.width=300;
-c.height=300;
-ctx.drawImage(img,0,0,300,300);
-imageData=c.toDataURL("image/jpeg",0.7);
+canvas.width=300;canvas.height=300;
+canvas.getContext("2d").drawImage(img,0,0,300,300);
+imageData=canvas.toDataURL("image/jpeg",0.7);
 }
 }
-
 function downloadImg(){
-if(imageData){
 let a=document.createElement("a");
 a.href=imageData;
-a.download="compressed.jpg";
+a.download="image.jpg";
 a.click();
 }
-}
 
-/* HISTORY FIX */
+/* HISTORY */
 function saveHistory(text){
-let hist=JSON.parse(localStorage.getItem("hist"))||[];
-hist.unshift(text);
-hist=hist.slice(0,10);
-localStorage.setItem("hist",JSON.stringify(hist));
+let h=JSON.parse(localStorage.getItem("hist"))||[];
+h.unshift(text);h=h.slice(0,10);
+localStorage.setItem("hist",JSON.stringify(h));
 renderHistory();
 }
-
 function renderHistory(){
-let hist=JSON.parse(localStorage.getItem("hist"))||[];
-historyBox.innerHTML=hist.map(x=>"<div>"+x+"</div>").join("");
+let h=JSON.parse(localStorage.getItem("hist"))||[];
+historyBox.innerHTML=h.map(x=>"<div>"+x+"</div>").join("");
 }
 window.onload=renderHistory;
 
